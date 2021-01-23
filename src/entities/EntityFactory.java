@@ -10,7 +10,7 @@ public class EntityFactory {
         switch (type) {
             case "consumer":         return new Consumer((long)a[0], (long)a[1], (long)a[2]);
             case "distributor":      return new Distributor((long)a[0], (long)a[1], (long)a[2], (long)a[3], (long)a[4], (String)a[5]);
-            case "producer":         return new Producer((long)a[0], (EnergyType) a[1], (long)a[2], (long)a[3], (long)a[4]);
+            case "producer":         return new Producer((long)a[0], (String) a[1], (long) a[2], (Double)a[3], (long)a[4]);
             default:
                 throw new IllegalArgumentException("The entity type "
                         + type + " is not recognized.");

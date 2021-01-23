@@ -1,16 +1,19 @@
 package entities;
-
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class Producer extends Entity{
     long id;
-    EnergyType energyType;
-    long pricePerKWh;
+    String energyType;
+    Double pricePerKWh;
     long energyPerDistributor;
     long maxDistributors;
     LinkedList<Distributor> actualDistributors;
+    Map<Integer, List<Long>> monthlyDistributors = new HashMap();
 
-    public Producer(long id, EnergyType energyType, long pricePerKWh, long energyPerDistributor, long maxDistributors) {
+    public Producer(long id, String energyType, long maxDistributors, Double pricePerKWh, long energyPerDistributor) {
         this.id = id;
         this.energyType = energyType;
         this.pricePerKWh = pricePerKWh;
@@ -29,22 +32,23 @@ public class Producer extends Entity{
     }
 
     public EnergyType getEnergyType() {
-        return energyType;
+        return EnergyType.valueOf(energyType);
     }
 
-    public void setEnergyType(EnergyType energyType) {
+    public void setEnergyType(String energyType) {
         this.energyType = energyType;
     }
 
     public boolean getRenewableEnergy(){
-        return energyType.isRenewable();
+
+        return EnergyType.valueOf(energyType).isRenewable();
     }
 
-    public long getPricePerKWh() {
+    public Double getPricePerKWh() {
         return pricePerKWh;
     }
 
-    public void setPricePerKWh(long pricePerKWh) {
+    public void setPricePerKWh(Double pricePerKWh) {
         this.pricePerKWh = pricePerKWh;
     }
 
@@ -66,6 +70,14 @@ public class Producer extends Entity{
 
     public LinkedList<Distributor> getActualDistributors() {
         return actualDistributors;
+    }
+
+    public Map<Integer, List<Long>> getMonthlyDistributors() {
+        return monthlyDistributors;
+    }
+
+    public void setMonthlyDistributors(Map<Integer, List<Long>> monthlyDistributors) {
+        this.monthlyDistributors = monthlyDistributors;
     }
 
     public void setActualDistributors(LinkedList<Distributor> actualDistributors) {

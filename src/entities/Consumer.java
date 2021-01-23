@@ -13,6 +13,7 @@ public class Consumer extends Entity {
     private boolean inDebt = false;
     private long money;
     private boolean isBankrupt = false;
+    private long postponeBill;
     private Map<Distributor, Long> debts = new HashMap();
 
     public Consumer(final long id, final long initialBudget, final long monthlyIncome) {
@@ -131,6 +132,14 @@ public class Consumer extends Entity {
      */
     public void setBankrupt(final boolean bankrupt) {
         isBankrupt = bankrupt;
+    }
+
+    public long getPostponeBill() {
+        return postponeBill;
+    }
+
+    public void setPostponeBill(long postponeBill) {
+        this.postponeBill = postponeBill;
     }
 
     /**

@@ -1,6 +1,7 @@
 package entities;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Distributor extends Entity {
@@ -13,9 +14,11 @@ public class Distributor extends Entity {
     private long productionCost;
     private int numberOfClients;
     private long money;
+    private long contractCost;
     private Map<Consumer, Long> contracts = new LinkedHashMap<>();
     private boolean isBankrupt = false;
-    private Producer actualProducer;
+    private List<Producer> actualProducers;
+    public boolean isChanged = false;
 
     public Distributor(final long id, final long contractLength,
                        final long initialBudget, final long infrastructureCost,
@@ -147,12 +150,12 @@ public class Distributor extends Entity {
         isBankrupt = bankrupt;
     }
 
-    public Producer getActualProducer() {
-        return actualProducer;
+    public List<Producer> getActualProducers() {
+        return actualProducers;
     }
 
-    public void setActualProducer(Producer actualProducer) {
-        this.actualProducer = actualProducer;
+    public void setActualProducers(List<Producer> actualProducers) {
+        this.actualProducers = actualProducers;
     }
 
     public long getEnergyNeededKW() {
@@ -169,6 +172,14 @@ public class Distributor extends Entity {
 
     public void setProducerStrategy(String producerStrategy) {
         this.producerStrategy = producerStrategy;
+    }
+
+    public long getContractCost() {
+        return contractCost;
+    }
+
+    public void setContractCost(long contractCost) {
+        this.contractCost = contractCost;
     }
 
     /**

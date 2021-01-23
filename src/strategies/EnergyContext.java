@@ -12,7 +12,7 @@ public class EnergyContext {
         this.strategy = strategy;
     }
 
-    public void executeStrategy(Distributor d, List<Producer> producers){
-        strategy.findProducer(d, producers);
+    public void executeStrategy(Distributor d, List<Producer> producers, int month){
+        strategy.findProducer(d, producers, month);
     }
 }

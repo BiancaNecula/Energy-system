@@ -1,5 +1,7 @@
 package entities;
 
+import strategies.EnergyChoiceStrategyType;
+
 /**
  * Types of energy produced by EnergyProducers
  */
@@ -26,4 +28,5 @@ public enum EnergyType {
     public boolean isRenewable() {
         return renewable;
     }
+
 }

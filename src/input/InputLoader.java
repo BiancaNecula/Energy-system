@@ -70,7 +70,8 @@ public final class InputLoader {
                             (long) ((JSONObject) d).get("contractLength"),
                             (long) ((JSONObject) d).get("initialBudget"),
                             (long) ((JSONObject) d).get("initialInfrastructureCost"),
-                            (long) ((JSONObject) d).get("initialProductionCost"));
+                            (long) ((JSONObject) d).get("energyNeededKW"),
+                            (String) ((JSONObject) d).get("producerStrategy"));
                     distributors.add((Distributor) entity);
                 }
             } else {
@@ -80,9 +81,9 @@ public final class InputLoader {
                 for (Object d : producersData) {
                     Entity entity = EntityFactory.createEntity("producer",
                             (long) ((JSONObject) d).get("id"),
-                            (long) ((JSONObject) d).get("energyType"),
+                            (String) ((JSONObject) d).get("energyType"),
                             (long) ((JSONObject) d).get("maxDistributors"),
-                            (long) ((JSONObject) d).get("priceKW"),
+                            (double) ((JSONObject) d).get("priceKW"),
                             (long) ((JSONObject) d).get("energyPerDistributor"));
                     producers.add((Producer) entity);
                 }
