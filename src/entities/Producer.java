@@ -4,16 +4,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class Producer extends Entity{
-    long id;
-    String energyType;
-    Double pricePerKWh;
-    long energyPerDistributor;
-    long maxDistributors;
-    LinkedList<Distributor> actualDistributors;
-    Map<Integer, List<Long>> monthlyDistributors = new HashMap();
+public final class Producer extends Entity {
+    private long id;
+    private String energyType;
+    private Double pricePerKWh;
+    private long energyPerDistributor;
+    private long maxDistributors;
+    private LinkedList<Distributor> actualDistributors;
+    private Map<Integer, List<Long>> monthlyDistributors = new HashMap();
 
-    public Producer(long id, String energyType, long maxDistributors, Double pricePerKWh, long energyPerDistributor) {
+    public Producer(long id, String energyType, long maxDistributors,
+                    Double pricePerKWh, long energyPerDistributor) {
         this.id = id;
         this.energyType = energyType;
         this.pricePerKWh = pricePerKWh;
@@ -39,7 +40,7 @@ public class Producer extends Entity{
         this.energyType = energyType;
     }
 
-    public boolean getRenewableEnergy(){
+    public boolean getRenewableEnergy() {
 
         return EnergyType.valueOf(energyType).isRenewable();
     }

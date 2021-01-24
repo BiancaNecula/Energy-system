@@ -3,7 +3,7 @@ package entities;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Consumer extends Entity {
+public final class Consumer extends Entity {
     private final long id;
     private final long initialBudget;
     private final long monthlyIncome;

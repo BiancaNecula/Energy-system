@@ -150,7 +150,8 @@ public final class InputLoader {
             e.printStackTrace();
         }
         InputGame inputGame = InputGame.getInstanceOfInput();
-        inputGame.init(numberOfTurns, consumers, distributors, producers, newConsumers, distributorChanges, producerChanges);
+        inputGame.init(numberOfTurns, consumers, distributors, producers,
+                newConsumers, distributorChanges, producerChanges);
     }
 }
 

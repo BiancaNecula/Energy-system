@@ -1,5 +1,5 @@
 Object Oriented Programming Course
-Project - First Phase
+Project - Second Phase
 Energetic System
 
 December 2020
@@ -13,6 +13,7 @@ Faculty of Automatic Control and Computer Science \
 git clone https://github.com/BiancaNecula/Energy-system
 ```
 https://ocw.cs.pub.ro/courses/poo-ca-cd/teme/proiect/etapa1
+https://ocw.cs.pub.ro/courses/poo-ca-cd/teme/proiect/etapa2
 
 # About the code
 Project Structure:
@@ -27,15 +28,25 @@ Project Structure:
     * entities: contains 2 entities used in program
         * Consumer: entity with the role of a consumer in an energetic system in a city. He can choose a distributor, pay the services or delay the payment, or goes bankrupt.
         * Distributor: entity with the role of a distributor in the same context. He can make contracts with consumers, pay his taxes, or goes bankrupt.
+        * Producer: can make contracts with distributors with some strategies
         * Entity: inherited class by Consumer and Distributor 
         * EntityFactory: Factory class for entities for creating objects without direct access to classes
+        * EnergyType: available types of energy
     * updates: contains 1 entity used in program
-        * UpdateCostsChanges: used for the monthly changes to distributors
+        * UpdateDistributorChanges: used for the monthly changes to distributors
+        * UpdateProducerChanges: used for the monthly changes to producers
         * Update: inherited class by UpdateCostsChanges. It's not used for monthly new consumers because they are directly stored in a list of Consumers
         * UpdateFactory: Factory class for updates for creating objects without direct access to classes  
     * utils: contains comparators
         * ConsumersComparator: comparing consumers after id
         * DistributorsComparator: comparing distributors by contract
+    * strategies: 
+        * Strategy: interface for Green, Price or Quantity strategies
+        * StrategyFactory: Factory class for choosing the right type of energy
+        * EnergyContext: util class for Strategy design
+    * observer:
+        * DistributorObserver: observer that contains a distributor
+        * DistributorUpdate: subject that contains all the observers and notify them
         
 For solving the problem I followed the logic:
 * Consumers:
@@ -52,12 +63,19 @@ For solving the problem I followed the logic:
     * formula for contract with consumers: Math.round(Math.floor(infrastructure_cost / number of consumers)) + production_cost + profit
     * formula for profit: profit = Math.round(Math.floor(0.2 * production_cost))
     * formula for taxes: total_cost = infrastructure_cost + number of consumers * production_cost 
+* Producers:
+    * they have some types of energy, renewable or not
+    * they decide the production cost of distributors
+    * a distributor can take energy from more producers 
+    * the formula for production cost is: 
+        * cost = sum (energy * price per Kw )
+        * productionCost = Math.round(Math.floor(cost / 10)) \\
     
 It's repeating for <number_of_turns> months.
  
-To implement object oriented concepts, I used design patterns like Singleton for input (InputGame) and Factory for entities and updates. I also included other concepts, OOP or Java related, like polymorphism, comparators, streams, collections.
+To implement object oriented concepts, I used design patterns like Singleton for input (InputGame), Factory for entities and updates, Observer for changes for distributors and Strategy for choosing the producer. I also included other concepts, OOP or Java related, like polymorphism, comparators, streams, collections.
 
 # Testing
 
-The Main_et1 class runs the checker.
+The Main class runs the checker.
 Comparing ref files with result files.                   

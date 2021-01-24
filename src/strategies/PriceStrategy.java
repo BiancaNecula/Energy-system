@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PriceStrategy implements EnergyStrategy{
+public final class PriceStrategy implements EnergyStrategy {
     @Override
     public void findProducer(Distributor distributor, List<Producer> producers, int month) {
         List<Producer> sortedProducers = producers.stream().sorted(Comparator
@@ -27,7 +27,7 @@ public class PriceStrategy implements EnergyStrategy{
                 distributor.getActualProducers().add(p);
                 p.getActualDistributors().add(distributor);
                 energy += p.getEnergyPerDistributor();
-                if(energy >= distributor.getEnergyNeededKW()) {
+                if (energy >= distributor.getEnergyNeededKW()) {
                     break;
                 }
             }

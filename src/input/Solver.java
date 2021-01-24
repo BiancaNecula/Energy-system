@@ -3,6 +3,8 @@ package input;
 import entities.Consumer;
 import entities.Distributor;
 import entities.Producer;
+import observer.DistributorObserver;
+import observer.DistributorUpdate;
 import strategies.EnergyContext;
 import strategies.EnergyStrategy;
 import strategies.StrategyFactory;
@@ -33,7 +35,8 @@ public class Solver {
             }
             checkContracts(input.getConsumers(), input.getDistributors(), indices);
             taxDistributors(input.getDistributors());
-            chooseNewProducers(input.getProducers(), i+1, input.getProducerChanges().get(i), input.getDistributors());
+            chooseNewProducers(input.getProducers(), i + 1,
+                    input.getProducerChanges().get(i), input.getDistributors());
             input.getDistributors().sort(Comparator.comparing(Distributor::getId));
 
         }
@@ -105,7 +108,7 @@ public class Solver {
     private void firstMonth(final List<Consumer> consumers,
                             final List<Distributor> distributors,
                             final List<Producer> producers) {
-        for(Distributor d: distributors) {
+        for (Distributor d: distributors) {
             StrategyFactory strategyFactory = new StrategyFactory();
             EnergyStrategy energyStrategy = strategyFactory.createStrategy(d);
             EnergyContext context = new EnergyContext(energyStrategy);
@@ -168,20 +171,20 @@ public class Solver {
                 }
             }
         }
-        for (Distributor d : distributors) {
-            long costContract2;
-            if (d.getNumberOfClients() != 0) {
-                costContract2 = Math.round(Math.floor(d.getInfrastructureCost()
-                        / d.getNumberOfClients()))
-                        + d.getProductionCost()
-                        + d.getProfit();
-            } else {
-                costContract2 = d.getInfrastructureCost()
-                        + d.getProductionCost()
-                        + d.getProfit();
-            }
-            d.setContractCost(costContract2);
-        }
+//        for (Distributor d : distributors) {
+//            long costContract2;
+//            if (d.getNumberOfClients() != 0) {
+//                costContract2 = Math.round(Math.floor(d.getInfrastructureCost()
+//                        / d.getNumberOfClients()))
+//                        + d.getProductionCost()
+//                        + d.getProfit();
+//            } else {
+//                costContract2 = d.getInfrastructureCost()
+//                        + d.getProductionCost()
+//                        + d.getProfit();
+//            }
+//            d.setContractCost(costContract2);
+//        }
     }
 
     /**
@@ -206,10 +209,9 @@ public class Solver {
                 if (!c.isBankrupt()) {
                     c.setMoney(c.getMoney() + c.getMonthlyIncome());
                     if (c.getPostponeBill() != 0) {
-                        if(c.getMoney() < c.getPostponeBill()) {
+                        if (c.getMoney() < c.getPostponeBill()) {
                             c.setBankrupt(true);
-                        }
-                        else {
+                        } else {
                             c.setMoney(c.getMoney() - c.getPostponeBill());
                         }
                     }
@@ -374,42 +376,32 @@ public class Solver {
                 }
                 d.setMoney(d.getMoney() - totalCost);
             }
-            for(Consumer r : remember) {
+            for (Consumer r : remember) {
                 d.getContracts().remove(r);
             }
 
         }
     }
 
-    private void chooseNewProducers(List<Producer> producers, int month, List<UpdateProducerChanges> producerChanges, List<Distributor> distributors) {
+    private void chooseNewProducers(List<Producer> producers, int month,
+                                    List<UpdateProducerChanges> producerChanges,
+                                    List<Distributor> distributors) {
+        DistributorUpdate update = new DistributorUpdate();
         for (UpdateProducerChanges u : producerChanges) {
             for (Producer p : producers) {
                 if (p.getId() == u.getId()) {
                     p.setEnergyPerDistributor(u.getEnergyPerDistributor());
                     if (p.getActualDistributors() != null) {
                         for (Distributor d : p.getActualDistributors()) {
-                            d.isChanged = true;
+                            DistributorObserver obs = new DistributorObserver(d);
+                            update.attach(obs);
+                            d.setChanged(true);
                         }
                     }
                 }
             }
         }
-        for (Distributor d : distributors) {
-            //System.out.println(d.getContractCost() + " " + d.getId());
-            if(d.isChanged) {
-                for(Producer p : producers) {
-                    if(p.getActualDistributors() != null && p.getActualDistributors().contains(d)) {
-                        p.getActualDistributors().remove(d);
-                        d.getActualProducers().remove(p);
-                    }
-                }
-                StrategyFactory strategyFactory = new StrategyFactory();
-                EnergyStrategy energyStrategy = strategyFactory.createStrategy(d);
-                EnergyContext context = new EnergyContext(energyStrategy);
-                context.executeStrategy(d, producers, month);
-            }
-            d.isChanged = false;
-        }
+        update.notifyUpdate(producers, month);
         for (Producer p: producers) {
             if (p.getActualDistributors() != null && p.getActualDistributors().size() > 0) {
                 for (Distributor d : p.getActualDistributors()) {
@@ -420,8 +412,7 @@ public class Solver {
                         p.getMonthlyDistributors().get(month).add(d.getId());
                     }
                 }
-            }
-            else {
+            } else {
                 p.getMonthlyDistributors().put(month, new LinkedList<>());
             }
             Collections.sort(p.getMonthlyDistributors().get(month));

@@ -1,6 +1,6 @@
 package updates;
 
-public class UpdateDistributorChanges extends Update {
+public final class UpdateDistributorChanges extends Update {
     private long id;
     private long infrastructureCost;
 

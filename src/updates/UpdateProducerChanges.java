@@ -1,6 +1,6 @@
 package updates;
 
-public class UpdateProducerChanges extends Update {
+public final class UpdateProducerChanges extends Update {
     private long id;
     private long energyPerDistributor;
 

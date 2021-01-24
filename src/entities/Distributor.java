@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Distributor extends Entity {
+public final class Distributor extends Entity {
     private long id;
     private long contractLength;
     private long initialBudget;
@@ -18,7 +18,7 @@ public class Distributor extends Entity {
     private Map<Consumer, Long> contracts = new LinkedHashMap<>();
     private boolean isBankrupt = false;
     private List<Producer> actualProducers;
-    public boolean isChanged = false;
+    private boolean isChanged = false;
 
     public Distributor(final long id, final long contractLength,
                        final long initialBudget, final long infrastructureCost,
@@ -180,6 +180,14 @@ public class Distributor extends Entity {
 
     public void setContractCost(long contractCost) {
         this.contractCost = contractCost;
+    }
+
+    public boolean isChanged() {
+        return isChanged;
+    }
+
+    public void setChanged(boolean changed) {
+        isChanged = changed;
     }
 
     /**

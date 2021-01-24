@@ -5,14 +5,19 @@ import entities.Producer;
 
 import java.util.List;
 
-public class EnergyContext {
+public final class EnergyContext {
     private EnergyStrategy strategy;
 
-    public EnergyContext(EnergyStrategy strategy){
+    public EnergyContext(EnergyStrategy strategy) {
         this.strategy = strategy;
     }
 
-    public void executeStrategy(Distributor d, List<Producer> producers, int month){
+    /**
+     * @param d
+     * @param producers
+     * @param month
+     */
+    public void executeStrategy(Distributor d, List<Producer> producers, int month) {
         strategy.findProducer(d, producers, month);
     }
 }
