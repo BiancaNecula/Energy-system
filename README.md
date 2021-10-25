@@ -12,8 +12,9 @@ Faculty of Automatic Control and Computer Science \
 ```bash
 git clone https://github.com/BiancaNecula/Energy-system
 ```
-https://ocw.cs.pub.ro/courses/poo-ca-cd/teme/proiect/etapa1
-https://ocw.cs.pub.ro/courses/poo-ca-cd/teme/proiect/etapa2
+https://ocw.cs.pub.ro/courses/poo-ca-cd/teme/proiect/etapa1 \
+https://ocw.cs.pub.ro/courses/poo-ca-cd/teme/proiect/etapa2 \
+The project is based on the simulation of an energy system in which we will have different entities with well-defined responsibilities, which will be introduced along the way - producers, distributors, consumers, etc. All these entities are trying to fulfill their duties with the ultimate goal of remaining on the market and avoiding bankruptcy.
 
 # About the code
 Project Structure:
